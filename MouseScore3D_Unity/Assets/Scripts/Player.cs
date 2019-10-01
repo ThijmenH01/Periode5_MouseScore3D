@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+
     public Transform playerCar;
-    public Camera gameCamera;
     public LayerMask layerMask;
+    public AudioSource horn;
     public float health = 100;
 
+    private GameManager gameManager;
     [SerializeField] private float damage;
     [SerializeField] private HealthBar healthBar;
+
+    private void Awake() {
+        gameManager = GameManager.instance;
+        horn = GetComponent<AudioSource>();
+    }
 
     void Update() {
         Movement();
         VehicleOnRoad();
+        Horn();
 
         if(!VehicleOnRoad()) {
             health -= damage * Time.deltaTime;
@@ -42,6 +50,15 @@ public class Player : MonoBehaviour {
             }
         } else {
             return false;
+        }
+    }
+
+    private void Horn() {
+        if(Input.GetMouseButtonDown(0)) {
+            horn.Play(0);
+        }
+        if(Input.GetMouseButtonUp(0)) {
+            horn.Pause();
         }
     }
 }
