@@ -17,9 +17,18 @@ public class ScoreManager : MonoBehaviour {
     private int scoreInTime;
     private bool allowedToSwitchLevel = false;
 
-    private void Start() {
+    private void Awake() {
         instance = this;
+    }
+
+    private void Start() {
         StartCoroutine( ScoreAsync( 0.1f ) );
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown( KeyCode.Minus )) {
+            NextLevelReached();
+        }
     }
 
     private IEnumerator ScoreAsync(float time) {
@@ -27,7 +36,7 @@ public class ScoreManager : MonoBehaviour {
             yield return new WaitForSeconds( time );
             if(!GameManager.instance.gameIsPreparing) {
                 scoreInTime++;
-                scoreInTimeText.text = "M: " + scoreInTime.ToString("D5");
+                scoreInTimeText.text = "M: " + scoreInTime.ToString( "D5" );
 
                 if(scoreInTime % 100 == 0 && !GameManager.instance.gameIsPreparing) {
                     allowedToSwitchLevel = true;

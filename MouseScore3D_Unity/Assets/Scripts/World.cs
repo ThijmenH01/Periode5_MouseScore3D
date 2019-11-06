@@ -2,21 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class World : MonoBehaviour
-{
+public class World : MonoBehaviour {
+    
+    public Color nextWorldColor;
+
+    [SerializeField] private MapColorsScriptObj[] mapColorsScriptObj;
+    [SerializeField] private Renderer[] trees;
     [SerializeField] private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float distance;
 
+    private Renderer renderer;
+    private int loadNextColor;
     private float timer;
     private float speedAddon = 0.1f;
 
     private void Start() {
         ScoreManager.instance.OnNextLevel += LevelUp;
+
+        renderer = GetComponent<Renderer>();
+
+        nextWorldColor = renderer.material.color;
+        loadNextColor = ScoreManager.instance.currentLevel;
     }
 
     void Update() {
         WorldMovement();
+        
+        renderer.material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );
+        for(int i = 0; i < trees.Length; i++) {
+            trees[i].material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );
+        }
     }
 
     private void WorldMovement() {
@@ -28,7 +44,12 @@ public class World : MonoBehaviour
     }
 
     private void LevelUp() {
+        loadNextColor++;
+        nextWorldColor = mapColorsScriptObj[loadNextColor].mapColor;
         speed += speedAddon;
+        if(loadNextColor >= mapColorsScriptObj.Length - 1) {
+            loadNextColor = 1;
+        }
     }
 
     private void OnDestroy() {

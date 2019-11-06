@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    
+
     public delegate void OnOffoadAction(bool onRoad);
     public static event OnOffoadAction OnOffroad;
     //public Event makeHPBarShakeAction;
@@ -14,12 +14,14 @@ public class Player : MonoBehaviour {
     public AudioSource engineSound;
     public float health = 100;
 
+    private float healthAddon = 0.1f;
+    private bool isMaxHealth = true;
     private GameManager gameManager;
     private Vector3 startPos;
     private int carLightNormal = 10;
     private int carLightShineBU;
     private int carLightShine = 75;
-  
+
     [SerializeField] private float damage;
     [SerializeField] private Light frontR;
     [SerializeField] private Light frontL;
@@ -31,13 +33,23 @@ public class Player : MonoBehaviour {
     }
 
     private void Start() {
-        carLightShineBU = carLightShine;
-        transform.position = startPos;
         GameManager.instance.OnPauseEvent += PauseEvent;
         GameManager.instance.OnUnPauseEvent += UnPauseEvent;
+        GameManager.instance.OnGameOverEvent += GameOverEvent;
+
+        StartCoroutine( HealingAsync( 0.1f ) );
+
+        carLightShineBU = carLightShine;
+        transform.position = startPos;
     }
 
     void Update() {
+        if(health >= 100) {
+            isMaxHealth = true;
+        } else {
+            isMaxHealth = false;
+        }
+
         Movement();
         VehicleOnRoad();
         Horn();
@@ -57,6 +69,12 @@ public class Player : MonoBehaviour {
         carLightShine = carLightShineBU;
         horn.volume = 1;
         engineSound.Play();
+    }
+
+    private void GameOverEvent() {
+        carLightShine = carLightNormal;
+        horn.volume = 0;
+        engineSound.Stop();
     }
 
     private void Movement() {
@@ -100,5 +118,20 @@ public class Player : MonoBehaviour {
             frontR.intensity = carLightNormal;
             frontL.intensity = carLightNormal;
         }
+    }
+
+    private IEnumerator HealingAsync(float time) {
+        while(true) {
+            if(!isMaxHealth) {
+                health += healthAddon;
+            }
+            yield return new WaitForSeconds( time );
+        }
+    }
+
+    private void OnDestroy() {
+        GameManager.instance.OnPauseEvent -= PauseEvent;
+        GameManager.instance.OnUnPauseEvent -= UnPauseEvent;
+        GameManager.instance.OnGameOverEvent -= GameOverEvent;
     }
 }

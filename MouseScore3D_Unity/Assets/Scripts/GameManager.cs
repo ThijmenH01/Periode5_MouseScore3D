@@ -28,14 +28,14 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int timeTillStart;
     [SerializeField] private GameObject pauseMenu;
 
-
     private void Awake() {
         instance = this;
     }
 
     private void Start() {
-        Cursor.lockState = CursorLockMode.Locked;
         StartCoroutine( StartCountdown( 1 ) );
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update() {
@@ -74,11 +74,11 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SetActive( true );
         reachedLevelGameOverText.text = "Game Over, You reached level " + ScoreManager.instance.currentLevel + "!";
         player.health = Mathf.Clamp( player.health , 0 , 100 );
-        OnGameOverEvent?.Invoke();
 
         if(Input.anyKeyDown && gameOver) {
             RestartGame();
         }
+        OnGameOverEvent?.Invoke();
     }
 
     private void MoveTextAway(float moveSpeed) {
