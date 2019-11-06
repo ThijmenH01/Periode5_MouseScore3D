@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour {
     [SerializeField] private Player player;
-
     [SerializeField] private Transform healthBar;
     [SerializeField] private Animator animator;
-    private float distance = 0.1f;
 
     private void Start() {
         Player.OnOffroad += ShakeBar;
@@ -20,5 +18,9 @@ public class HealthBar : MonoBehaviour {
 
     public void SetSize(float sizeNormalized) {
         healthBar.localScale = new Vector2( 1f , sizeNormalized );
+    }
+
+    private void OnDestroy() {
+        Player.OnOffroad -= ShakeBar;
     }
 }
