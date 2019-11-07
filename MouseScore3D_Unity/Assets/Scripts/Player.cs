@@ -17,7 +17,6 @@ public class Player : MonoBehaviour {
     private float healthAddon = 0.1f;
     private bool isMaxHealth = true;
     private GameManager gameManager;
-    private Vector3 startPos;
     private int carLightNormal = 10;
     private int carLightShineBU;
     private int carLightShine = 75;
@@ -27,7 +26,6 @@ public class Player : MonoBehaviour {
     [SerializeField] private Light frontL;
 
     private void Awake() {
-        startPos = transform.position;
         gameManager = GameManager.instance;
         horn = GetComponent<AudioSource>();
     }
@@ -40,7 +38,6 @@ public class Player : MonoBehaviour {
         StartCoroutine( HealingAsync( 0.1f ) );
 
         carLightShineBU = carLightShine;
-        transform.position = startPos;
     }
 
     void Update() {

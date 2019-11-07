@@ -10,12 +10,12 @@ public class Camera : MonoBehaviour {
         Vector3 translateFrom;
         Vector3 translateTo;
 
-        if(GameManager.instance.gameOver) {
+        if(GameManager.instance.gameIsOver) {
             translateFrom = transform.position;
             translateTo = new Vector3 (0 , transform.position.y , -20);
             transform.position = Vector3.Lerp(translateFrom , translateTo , Time.deltaTime * rotationSmoothness);
 
-            if(GameManager.instance.gameOver) {
+            if(GameManager.instance.gameIsOver) {
                 Time.timeScale -= Time.deltaTime;
             }
         }

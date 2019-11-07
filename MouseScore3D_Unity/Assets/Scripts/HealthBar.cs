@@ -9,11 +9,16 @@ public class HealthBar : MonoBehaviour {
 
     private void Start() {
         Player.OnOffroad += ShakeBar;
+        GameManager.instance.OnGameOverEvent += GameOver;
     }
 
     public void ShakeBar(bool allowedToShake) {
         animator.SetBool( "Shaking" , allowedToShake );
         SetSize( player.health / 100 );
+    }
+
+    private void GameOver() {
+        gameObject.SetActive( false );
     }
 
     public void SetSize(float sizeNormalized) {
@@ -22,5 +27,6 @@ public class HealthBar : MonoBehaviour {
 
     private void OnDestroy() {
         Player.OnOffroad -= ShakeBar;
+        GameManager.instance.OnGameOverEvent -= GameOver;
     }
 }

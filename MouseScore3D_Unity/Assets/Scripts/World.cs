@@ -18,7 +18,7 @@ public class World : MonoBehaviour {
     private float speedAddon = 0.1f;
 
     private void Start() {
-        ScoreManager.instance.OnNextLevel += LevelUp;
+        NotificationCenter.OnNextLevel += LevelUp;
 
         renderer = GetComponent<Renderer>();
 
@@ -53,6 +53,6 @@ public class World : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        ScoreManager.instance.OnNextLevel -= LevelUp;
+        NotificationCenter.OnNextLevel -= LevelUp;
     }
 }

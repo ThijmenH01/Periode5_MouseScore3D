@@ -7,9 +7,6 @@ public class ScoreManager : MonoBehaviour {
 
     public static ScoreManager instance;
 
-    public delegate void OnNextLevelAction();
-    public event OnNextLevelAction OnNextLevel;
-
     public Text scoreInTimeText;
     public int currentLevel = 1;
 
@@ -22,6 +19,9 @@ public class ScoreManager : MonoBehaviour {
     }
 
     private void Start() {
+        GameManager.instance.OnGameOverEvent += GameOver;
+        NotificationCenter.OnNextLevel += NextLevelReached;
+
         StartCoroutine( ScoreAsync( 0.1f ) );
     }
 
@@ -36,7 +36,7 @@ public class ScoreManager : MonoBehaviour {
             yield return new WaitForSeconds( time );
             if(!GameManager.instance.gameIsPreparing) {
                 scoreInTime++;
-                scoreInTimeText.text = "M: " + scoreInTime.ToString( "D5" );
+                scoreInTimeText.text = "M: " + scoreInTime.ToString( "D4" );
 
                 if(scoreInTime % 100 == 0 && !GameManager.instance.gameIsPreparing) {
                     allowedToSwitchLevel = true;
@@ -53,6 +53,13 @@ public class ScoreManager : MonoBehaviour {
         allowedToSwitchLevel = false;
         levelUpUI.SetUIState( true );
         levelUpUI.levelReachedText.text = "Reached Level " + currentLevel.ToString() + "!";
-        OnNextLevel?.Invoke();
+    }
+
+    private void GameOver() {
+        scoreInTimeText.enabled = false;
+    }
+
+    void OnDestroy() {
+        GameManager.instance.OnGameOverEvent -= GameOver;
     }
 }

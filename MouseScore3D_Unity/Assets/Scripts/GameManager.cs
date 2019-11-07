@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     //Events
+    public delegate void OnGameStart();
+    public event OnGameStart OnGameStartEvent;
     public delegate void OnPause();
     public event OnPause OnPauseEvent;
     public delegate void OnUnpause();
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour {
     public Text reachedLevelGameOverText;
     public GameObject gameOverScreen;
     public Player player;
-    public bool gameOver = false;
+    public bool gameIsOver = false;
     public bool gameIsPreparing = true;
     public bool gameIsPaused = false;
 
@@ -41,14 +43,14 @@ public class GameManager : MonoBehaviour {
     private void Update() {
 
         if(!gameIsPreparing) {
-            MoveTextAway( 100 );
+            OnGameStartEvent?.Invoke();
         }
 
         if(player.health <= 0) {
             GameOver();
         }
 
-        if(Input.GetKeyDown( KeyCode.Escape ) && !gameOver) {
+        if(Input.GetKeyDown( KeyCode.Escape ) && !gameIsOver) {
             if(!gameIsPaused)
                 PauseGame();
             else
@@ -70,19 +72,15 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GameOver() {
-        gameOver = true;
+        gameIsOver = true;
         gameOverScreen.SetActive( true );
         reachedLevelGameOverText.text = "Game Over, You reached level " + ScoreManager.instance.currentLevel + "!";
         player.health = Mathf.Clamp( player.health , 0 , 100 );
 
-        if(Input.anyKeyDown && gameOver) {
+        if(Input.GetKeyDown(KeyCode.Space) && gameIsOver) {
             RestartGame();
         }
         OnGameOverEvent?.Invoke();
-    }
-
-    private void MoveTextAway(float moveSpeed) {
-        timeTillStartText.transform.Translate( Vector2.up * moveSpeed * Time.deltaTime );
     }
 
     private void PauseGame() {
@@ -103,8 +101,8 @@ public class GameManager : MonoBehaviour {
 
     public void RestartGame() {
         Time.timeScale = 1;
-        if(gameOver) {
-            gameOver = false;
+        if(gameIsOver) {
+            gameIsOver = false;
         }
         SceneManager.LoadScene( 1 );
     }
