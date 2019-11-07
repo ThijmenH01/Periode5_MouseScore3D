@@ -4,11 +4,44 @@ using UnityEngine;
 
 public class NotificationCenter : MonoBehaviour
 {
+    //GameStart
+    public delegate void OnGameStartAction();
+    public static event OnGameStartAction OnGameStartEvent;
+    public static void FireGameStart() {
+        OnGameStartEvent?.Invoke();
+    }
 
+    //GamePause
+    public delegate void OnGamePauseAction();
+    public static event OnGamePauseAction OnPauseEvent;
+    public static void FireGamePause() {
+        OnPauseEvent?.Invoke();
+    }
+   
+    //GameResume
+    public delegate void OnGameUnPauseAction();
+    public static event OnGameUnPauseAction OnUnPauseEvent;
+    public static void FireGameUnPause() {
+        OnUnPauseEvent?.Invoke();
+    }
+    
+    //GameOver
+    public delegate void OnGameOverAction();
+    public static event OnGameOverAction OnGameOverEvent;
+    public static void FireGameOver() {
+        OnGameOverEvent?.Invoke();
+    }
+
+    //NextLevel
     public delegate void OnNextLevelAction();
-    public static event OnNextLevelAction OnNextLevel;
+    public static event OnNextLevelAction OnNextLevelEvent;
+    public static void FireNextLevelReached() {
+        OnNextLevelEvent?.Invoke();
+    }
 
-    public static void NextLevelReached() {
-        OnNextLevel?.Invoke();
+    public delegate void OnCheatAction();
+    public static event OnCheatAction OnCheatEvent;
+    public static void FireCheat() {
+        OnCheatEvent?.Invoke();
     }
 }

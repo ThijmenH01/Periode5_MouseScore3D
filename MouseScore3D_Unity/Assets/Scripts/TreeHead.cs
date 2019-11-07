@@ -8,7 +8,7 @@ public class TreeHead : MonoBehaviour
     [SerializeField] private Renderer treeColor;
 
     private void Start() {
-       NotificationCenter.OnNextLevel += LevelUp;
+       NotificationCenter.OnNextLevelEvent += LevelUp;
 
         treeColor = GetComponent<Renderer>();
         world = GetComponentInParent<World>();
@@ -19,6 +19,6 @@ public class TreeHead : MonoBehaviour
     }
 
     private void OnDestroy() {
-        NotificationCenter.OnNextLevel -= LevelUp;
+        NotificationCenter.OnNextLevelEvent -= LevelUp;
     }
 }

@@ -6,7 +6,6 @@ public class Player : MonoBehaviour {
 
     public delegate void OnOffoadAction(bool onRoad);
     public static event OnOffoadAction OnOffroad;
-    //public Event makeHPBarShakeAction;
 
     public Transform playerCar;
     public LayerMask layerMask;
@@ -31,20 +30,27 @@ public class Player : MonoBehaviour {
     }
 
     private void Start() {
-        GameManager.instance.OnPauseEvent += PauseEvent;
-        GameManager.instance.OnUnPauseEvent += UnPauseEvent;
-        GameManager.instance.OnGameOverEvent += GameOverEvent;
+        NotificationCenter.OnPauseEvent += GamePauseHandler;
+        NotificationCenter.OnUnPauseEvent += GameUnPauseHandler;
+        NotificationCenter.OnGameOverEvent += GameOverHandler;
+        NotificationCenter.OnNextLevelEvent += NextLevelHandler;
+        NotificationCenter.OnCheatEvent += CheatHandler;
 
-        StartCoroutine( HealingAsync( 0.1f ) );
+        //StartCoroutine( HealingAsync( 0.1f ) );
 
         carLightShineBU = carLightShine;
     }
 
     void Update() {
+
         if(health >= 100) {
             isMaxHealth = true;
         } else {
             isMaxHealth = false;
+        }
+
+        if(Input.GetKeyDown( KeyCode.Equals )) {
+            CheatHandler();
         }
 
         Movement();
@@ -56,22 +62,36 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void PauseEvent() {
+    private void GamePauseHandler() {
         carLightShine = carLightNormal;
         horn.volume = 0;
         engineSound.Pause();
     }
 
-    private void UnPauseEvent() {
+    private void GameUnPauseHandler() {
         carLightShine = carLightShineBU;
         horn.volume = 1;
         engineSound.Play();
     }
 
-    private void GameOverEvent() {
+    private void GameOverHandler() {
         carLightShine = carLightNormal;
         horn.volume = 0;
         engineSound.Stop();
+    }
+
+    private void NextLevelHandler() {
+        float healthRegen = 20;
+
+        if(!isMaxHealth) {
+            health += healthRegen;
+            health = Mathf.Clamp( health , 0 , 100 );
+        }
+    }
+
+    private void CheatHandler () {
+        health += 25;
+        health = Mathf.Clamp( health , 0 , 100 );
     }
 
     private void Movement() {
@@ -117,6 +137,7 @@ public class Player : MonoBehaviour {
         }
     }
 
+    //Not Using
     private IEnumerator HealingAsync(float time) {
         while(true) {
             if(!isMaxHealth) {
@@ -127,8 +148,10 @@ public class Player : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        GameManager.instance.OnPauseEvent -= PauseEvent;
-        GameManager.instance.OnUnPauseEvent -= UnPauseEvent;
-        GameManager.instance.OnGameOverEvent -= GameOverEvent;
+        NotificationCenter.OnPauseEvent -= GamePauseHandler;
+        NotificationCenter.OnUnPauseEvent -= GameUnPauseHandler;
+        NotificationCenter.OnGameOverEvent -= GameOverHandler;
+        NotificationCenter.OnNextLevelEvent -= NextLevelHandler;
+        NotificationCenter.OnCheatEvent -= CheatHandler;
     }
 }

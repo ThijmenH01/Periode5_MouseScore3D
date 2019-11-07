@@ -19,15 +19,16 @@ public class ScoreManager : MonoBehaviour {
     }
 
     private void Start() {
-        GameManager.instance.OnGameOverEvent += GameOver;
-        NotificationCenter.OnNextLevel += NextLevelReached;
+        NotificationCenter.OnGameOverEvent += GameOverHandler;
+        NotificationCenter.OnNextLevelEvent += NextLevelReachedHandler;
+        NotificationCenter.OnCheatEvent += CheatHolder;
 
         StartCoroutine( ScoreAsync( 0.1f ) );
     }
 
     private void Update() {
         if(Input.GetKeyDown( KeyCode.Minus )) {
-            NextLevelReached();
+            CheatHolder();
         }
     }
 
@@ -41,25 +42,31 @@ public class ScoreManager : MonoBehaviour {
                 if(scoreInTime % 100 == 0 && !GameManager.instance.gameIsPreparing) {
                     allowedToSwitchLevel = true;
                     if(allowedToSwitchLevel) {
-                        NextLevelReached();
+                        NotificationCenter.FireNextLevelReached();
                     }
                 }
             }
         }
     }
 
-    private void NextLevelReached() {
+    private void NextLevelReachedHandler() {
         currentLevel++;
         allowedToSwitchLevel = false;
         levelUpUI.SetUIState( true );
         levelUpUI.levelReachedText.text = "Reached Level " + currentLevel.ToString() + "!";
     }
 
-    private void GameOver() {
+    private void CheatHolder() {
+        NotificationCenter.FireNextLevelReached();
+    }
+
+    private void GameOverHandler() {
         scoreInTimeText.enabled = false;
     }
 
     void OnDestroy() {
-        GameManager.instance.OnGameOverEvent -= GameOver;
+        NotificationCenter.OnGameOverEvent -= GameOverHandler;
+        NotificationCenter.OnNextLevelEvent -= NextLevelReachedHandler;
+        NotificationCenter.OnCheatEvent -= CheatHolder;
     }
 }

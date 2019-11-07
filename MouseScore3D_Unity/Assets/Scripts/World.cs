@@ -18,7 +18,7 @@ public class World : MonoBehaviour {
     private float speedAddon = 0.1f;
 
     private void Start() {
-        NotificationCenter.OnNextLevel += LevelUp;
+        NotificationCenter.OnNextLevelEvent += LevelUpHandler;
 
         renderer = GetComponent<Renderer>();
 
@@ -43,7 +43,7 @@ public class World : MonoBehaviour {
         transform.position = _newPos;
     }
 
-    private void LevelUp() {
+    private void LevelUpHandler() {
         loadNextColor++;
         nextWorldColor = mapColorsScriptObj[loadNextColor].mapColor;
         speed += speedAddon;
@@ -53,6 +53,6 @@ public class World : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        NotificationCenter.OnNextLevel -= LevelUp;
+        NotificationCenter.OnNextLevelEvent -= LevelUpHandler;
     }
 }

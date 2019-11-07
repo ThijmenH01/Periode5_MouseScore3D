@@ -7,12 +7,12 @@ public class TimeTillStart : MonoBehaviour {
     [SerializeField] private Animator animator;
 
     private void Start() {
-        GameManager.instance.OnGameStartEvent += MoveCountDownAway;
+        NotificationCenter.OnGameStartEvent += MoveCountDownAwayHandler;
 
         animator = GetComponent<Animator>();
     }
 
-    private void MoveCountDownAway() {
+    private void MoveCountDownAwayHandler() {
         animator.SetTrigger( "StartPlay" );
     }
 
@@ -21,6 +21,6 @@ public class TimeTillStart : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        GameManager.instance.OnGameStartEvent -= MoveCountDownAway;
+        NotificationCenter.OnGameStartEvent -= MoveCountDownAwayHandler;
     }
 }

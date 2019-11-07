@@ -7,17 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
-    //Events
-    public delegate void OnGameStart();
-    public event OnGameStart OnGameStartEvent;
-    public delegate void OnPause();
-    public event OnPause OnPauseEvent;
-    public delegate void OnUnpause();
-    public event OnPause OnUnPauseEvent;
-    public delegate void OnGameOver();
-    public event OnGameOver OnGameOverEvent;
-
-    //Public Variables
     public Text timeTillStartText;
     public Text reachedLevelGameOverText;
     public GameObject gameOverScreen;
@@ -26,7 +15,6 @@ public class GameManager : MonoBehaviour {
     public bool gameIsPreparing = true;
     public bool gameIsPaused = false;
 
-    //Private Variables
     [SerializeField] private int timeTillStart;
     [SerializeField] private GameObject pauseMenu;
 
@@ -36,14 +24,14 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         StartCoroutine( StartCountdown( 1 ) );
-
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update() {
 
         if(!gameIsPreparing) {
-            OnGameStartEvent?.Invoke();
+            NotificationCenter.FireGameStart();
         }
 
         if(player.health <= 0) {
@@ -76,11 +64,10 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SetActive( true );
         reachedLevelGameOverText.text = "Game Over, You reached level " + ScoreManager.instance.currentLevel + "!";
         player.health = Mathf.Clamp( player.health , 0 , 100 );
-
+        NotificationCenter.FireGameOver();
         if(Input.GetKeyDown(KeyCode.Space) && gameIsOver) {
             RestartGame();
         }
-        OnGameOverEvent?.Invoke();
     }
 
     private void PauseGame() {
@@ -88,7 +75,8 @@ public class GameManager : MonoBehaviour {
         pauseMenu.SetActive( true );
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-        OnPauseEvent?.Invoke();
+        NotificationCenter.FireGamePause();
+        Cursor.visible = true;
     }
 
     public void ResumeGame() {
@@ -96,7 +84,8 @@ public class GameManager : MonoBehaviour {
         gameIsPaused = false;
         pauseMenu.SetActive( false );
         Time.timeScale = 1;
-        OnUnPauseEvent?.Invoke();
+        NotificationCenter.FireGameUnPause();
+        Cursor.visible = false;
     }
 
     public void RestartGame() {
