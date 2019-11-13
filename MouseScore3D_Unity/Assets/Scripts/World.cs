@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class World : MonoBehaviour {
-    
+
     public Color nextWorldColor;
+    public Color nextTreeWood;
 
     [SerializeField] private Renderer[] trees;
+    [SerializeField] private Renderer[] treesWood;
     [SerializeField] private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float distance;
@@ -21,17 +23,16 @@ public class World : MonoBehaviour {
         NotificationCenter.OnNextLevelEvent += LevelUpHandler;
         renderer = GetComponent<Renderer>();
         nextWorldColor = renderer.material.color;
-        loadNextColor = ScoreManager.instance.currentLevel;
-        mapColorsScriptObj = Resources.LoadAll<MapColorsScriptObj>( "ScriptableObjects/");
+        nextTreeWood = treesWood[0].material.color;
+        loadNextColor = ScoreManager.instance.currentLevel - 1;
+        mapColorsScriptObj = Resources.LoadAll<MapColorsScriptObj>( "ScriptableObjects/" );
     }
 
     void Update() {
         WorldMovement();
-
-        renderer.material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );
-        for(int i = 0; i < trees.Length; i++) {
-            trees[i].material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );
-        }
+        ChangeColorForSingleItem( renderer , nextWorldColor );
+        ChangeColorForArrayItem( trees , nextWorldColor );
+        ChangeColorForArrayItem( treesWood , nextTreeWood );
     }
 
     private void WorldMovement() {
@@ -44,11 +45,22 @@ public class World : MonoBehaviour {
 
     private void LevelUpHandler() {
         loadNextColor++;
-        nextWorldColor = mapColorsScriptObj[loadNextColor].mapColor;
-        speed += speedAddon;
-        if(loadNextColor >= mapColorsScriptObj.Length - 1) {
+        if(loadNextColor >= mapColorsScriptObj.Length) {
             loadNextColor = 1;
         }
+        nextWorldColor = mapColorsScriptObj[loadNextColor].mapColor;
+        nextTreeWood = mapColorsScriptObj[loadNextColor].treeWoodColor;
+        speed += speedAddon;
+    }
+
+    private void ChangeColorForArrayItem(Renderer[] renderObject , Color colorItem) {
+        for(int i = 0; i < renderObject.Length; i++) {
+            renderObject[i].material.color = Color.Lerp( renderObject[i].material.color , colorItem , Time.deltaTime * 1 );
+        }
+    }
+
+    private void ChangeColorForSingleItem(Renderer renderObject , Color colorItem) {
+        renderObject.material.color = Color.Lerp( renderObject.material.color , colorItem , Time.deltaTime * 1 );
     }
 
     private void OnDestroy() {

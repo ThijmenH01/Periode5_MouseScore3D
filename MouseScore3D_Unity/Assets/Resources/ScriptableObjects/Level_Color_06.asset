@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e17a4a23dd11243bb4ace18f27717e, type: 3}
-  m_Name: Level_Color_8
+  m_Name: Level_Color_06
   m_EditorClassIdentifier: 
-  mapColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0}
+  mapColor: {r: 0, g: 0.13257027, b: 1, a: 0}
+  treeWoodColor: {r: 1, g: 0, b: 0.90488815, a: 0}
