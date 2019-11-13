@@ -4636,7 +4636,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2068310953}
-  - component: {fileID: 2068310954}
   m_Layer: 0
   m_Name: Not RotatingWorld
   m_TagString: Untagged
@@ -4661,22 +4660,6 @@ Transform:
   m_Father: {fileID: 1979237657}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2068310954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068310952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3455af6eacacb31449c269795e0c5fde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clouds:
-  - {fileID: 6625423460367912153, guid: 21383f1c489a4af47801684d51e37238, type: 3}
-  - {fileID: 5877469941590947257, guid: c24d1fafb73bf834db4acdc7f3ad244e, type: 3}
-  - {fileID: 2410892241645530561, guid: 0f89a6dcb2a67da44acaafd393db48e5, type: 3}
 --- !u!1 &2078306981 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3169725597520342036, guid: 883505cc4d02aa44da8216e7f0b8650f,
@@ -5870,15 +5853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextWorldColor: {r: 0, g: 0, b: 0, a: 0}
-  mapColorsScriptObj:
-  - {fileID: 11400000, guid: b14758eb99f4fe0439c64b8d3d126f6d, type: 2}
-  - {fileID: 11400000, guid: fe7f0d198aa6052468a454756976e89f, type: 2}
-  - {fileID: 11400000, guid: 30748fe599849794e86bc013c1fe24de, type: 2}
-  - {fileID: 11400000, guid: 273b9f14dbb3f6a41940db9618bd1a43, type: 2}
-  - {fileID: 11400000, guid: b626b034cfd1d6d4ca26106602636b2c, type: 2}
-  - {fileID: 11400000, guid: 8742028118cf4674cb8922bd9818c858, type: 2}
-  - {fileID: 11400000, guid: d6fd2b5b17d72da43b85332463adc60a, type: 2}
-  - {fileID: 11400000, guid: 8edf007c1acc3f7489606fdaddf9e972, type: 2}
+  mapColorsScriptObj: []
   trees:
   - {fileID: 2078306984}
   - {fileID: 283172118}

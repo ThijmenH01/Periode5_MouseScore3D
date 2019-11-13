@@ -8,7 +8,6 @@ public class TimeTillStart : MonoBehaviour {
 
     private void Start() {
         NotificationCenter.OnGameStartEvent += MoveCountDownAwayHandler;
-
         animator = GetComponent<Animator>();
     }
 

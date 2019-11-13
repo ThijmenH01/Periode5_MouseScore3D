@@ -21,14 +21,14 @@ public class ScoreManager : MonoBehaviour {
     private void Start() {
         NotificationCenter.OnGameOverEvent += GameOverHandler;
         NotificationCenter.OnNextLevelEvent += NextLevelReachedHandler;
-        NotificationCenter.OnCheatEvent += CheatHolder;
+        NotificationCenter.OnCheatEvent += CheatHandler;
 
         StartCoroutine( ScoreAsync( 0.1f ) );
     }
 
     private void Update() {
         if(Input.GetKeyDown( KeyCode.Minus )) {
-            CheatHolder();
+            CheatHandler();
         }
     }
 
@@ -56,7 +56,7 @@ public class ScoreManager : MonoBehaviour {
         levelUpUI.levelReachedText.text = "Reached Level " + currentLevel.ToString() + "!";
     }
 
-    private void CheatHolder() {
+    private void CheatHandler() {
         NotificationCenter.FireNextLevelReached();
     }
 
@@ -67,6 +67,6 @@ public class ScoreManager : MonoBehaviour {
     void OnDestroy() {
         NotificationCenter.OnGameOverEvent -= GameOverHandler;
         NotificationCenter.OnNextLevelEvent -= NextLevelReachedHandler;
-        NotificationCenter.OnCheatEvent -= CheatHolder;
+        NotificationCenter.OnCheatEvent -= CheatHandler;
     }
 }

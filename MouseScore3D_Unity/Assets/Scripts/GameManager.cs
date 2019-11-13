@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour {
             GameOver();
         }
 
+        if(Input.GetKeyDown( KeyCode.R )) {
+            RestartGame();
+        }
+
         if(Input.GetKeyDown( KeyCode.Escape ) && !gameIsOver) {
             if(!gameIsPaused)
                 PauseGame();

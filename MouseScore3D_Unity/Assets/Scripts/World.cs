@@ -6,12 +6,12 @@ public class World : MonoBehaviour {
     
     public Color nextWorldColor;
 
-    [SerializeField] private MapColorsScriptObj[] mapColorsScriptObj;
     [SerializeField] private Renderer[] trees;
     [SerializeField] private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float distance;
 
+    private MapColorsScriptObj[] mapColorsScriptObj;
     private Renderer renderer;
     private int loadNextColor;
     private float timer;
@@ -19,16 +19,15 @@ public class World : MonoBehaviour {
 
     private void Start() {
         NotificationCenter.OnNextLevelEvent += LevelUpHandler;
-
         renderer = GetComponent<Renderer>();
-
         nextWorldColor = renderer.material.color;
         loadNextColor = ScoreManager.instance.currentLevel;
+        mapColorsScriptObj = Resources.LoadAll<MapColorsScriptObj>( "ScriptableObjects/");
     }
 
     void Update() {
         WorldMovement();
-        
+
         renderer.material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );
         for(int i = 0; i < trees.Length; i++) {
             trees[i].material.color = Color.Lerp( renderer.material.color , nextWorldColor , Time.deltaTime * 1 );

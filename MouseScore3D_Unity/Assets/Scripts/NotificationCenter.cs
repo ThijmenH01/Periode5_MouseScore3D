@@ -39,6 +39,7 @@ public class NotificationCenter : MonoBehaviour
         OnNextLevelEvent?.Invoke();
     }
 
+    //Cheat
     public delegate void OnCheatAction();
     public static event OnCheatAction OnCheatEvent;
     public static void FireCheat() {

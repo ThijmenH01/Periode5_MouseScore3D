@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu( fileName = "New Map Color" , menuName = "Map Colors/New Map Color")]
 public class MapColorsScriptObj : ScriptableObject {
