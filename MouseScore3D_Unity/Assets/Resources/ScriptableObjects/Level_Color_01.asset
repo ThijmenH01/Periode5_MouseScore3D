@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapColor: {r: 0.2419915, g: 0.5566038, b: 0, a: 0}
   treeWoodColor: {r: 0.3018868, g: 0.106854856, b: 0, a: 0}
+  backgroundColor: {r: 0, g: 0.5882353, b: 1, a: 1}

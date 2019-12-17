@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour {
 
     public Text scoreInTimeText;
     public int currentLevel = 1;
+    public int highScore = 1;
 
     [SerializeField] private LevelUpUI levelUpUI;
     private int scoreInTime;
@@ -29,6 +30,11 @@ public class ScoreManager : MonoBehaviour {
     private void Update() {
         if(Input.GetKeyDown( KeyCode.Minus )) {
             CheatHandler();
+        }
+
+        if(Input.GetKeyDown( KeyCode.P )){
+            highScore++;
+            print( highScore );
         }
     }
 

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Level_Color_12
   m_EditorClassIdentifier: 
   mapColor: {r: 0, g: 0, b: 0, a: 0}
-  treeWoodColor: {r: 0, g: 0, b: 0, a: 0}
+  treeWoodColor: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 0}
+  backgroundColor: {r: 1, g: 0.8441375, b: 0, a: 1}

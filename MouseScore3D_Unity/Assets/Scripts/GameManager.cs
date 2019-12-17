@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        NotificationCenter.OnGameOverEvent += GameOverHandler;
         StartCoroutine( StartCountdown( 1 ) );
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -34,10 +35,6 @@ public class GameManager : MonoBehaviour {
             NotificationCenter.FireGameStart();
         }
 
-        if(player.health <= 0) {
-            GameOver();
-        }
-
         if(Input.GetKeyDown( KeyCode.R )) {
             RestartGame();
         }
@@ -47,6 +44,13 @@ public class GameManager : MonoBehaviour {
                 PauseGame();
             else
                 ResumeGame();
+        }
+
+        if(Input.GetKeyDown( KeyCode.S ))  {
+            MetricsSaver.Save();
+        }
+        if(Input.GetKeyDown( KeyCode.L )) {
+            MetricsSaver.Load();
         }
     }
 
@@ -63,7 +67,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void GameOver() {
+    public void GameOverHandler() {
         gameIsOver = true;
         gameOverScreen.SetActive( true );
         reachedLevelGameOverText.text = "Game Over, You reached level " + ScoreManager.instance.currentLevel + "!";

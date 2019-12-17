@@ -4,4 +4,5 @@
 public class MapColorsScriptObj : ScriptableObject {
     public Color mapColor;
     public Color treeWoodColor;
+    public Color backgroundColor;
 }

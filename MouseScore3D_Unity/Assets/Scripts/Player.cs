@@ -45,6 +45,9 @@ public class Player : MonoBehaviour {
 
         if(health >= 100) {
             isMaxHealth = true;
+        }
+        if(health <= 0) {
+            NotificationCenter.FireGameOver();
         } else {
             isMaxHealth = false;
         }
@@ -89,7 +92,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void CheatHandler () {
+    private void CheatHandler() {
         health += 25;
         health = Mathf.Clamp( health , 0 , 100 );
     }
