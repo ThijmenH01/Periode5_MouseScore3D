@@ -76,7 +76,9 @@ public class GameManager : MonoBehaviour {
         player.health = Mathf.Clamp( player.health , 0 , 100 );
         if(!isSaved) {
             isSaved = true;
-            highScoreText.text = "Highscore: " + ScoreManager.instance.highScore + "!";
+            highScoreText.text = "Highscore: " + GlobalStats.highScore + "!";
+            GlobalStats.totalDistanceDriven += ScoreManager.instance.scoreInTime;
+            print( GlobalStats.totalDistanceDriven );
             NotificationCenter.FireSave();
         }
         //NotificationCenter.FireGameOver();

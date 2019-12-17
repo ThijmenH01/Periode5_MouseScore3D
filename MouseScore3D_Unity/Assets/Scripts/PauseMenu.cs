@@ -18,7 +18,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
     public void ClearStats() {
-        ScoreManager.instance.highScore = 0;
+        GlobalStats.highScore = 0;
         NotificationCenter.FireSave();
     }
 }

@@ -10,6 +10,8 @@ public class MetricsSaver : MonoBehaviour {
         NotificationCenter.OnLoadEvent += Load;
         SaveObject saveObject = new SaveObject {
             highScore = 0 ,
+            timesPlayed = 0,
+            totalDistanceDriven = 0,
         };
         string json = JsonUtility.ToJson( saveObject );
 
@@ -19,19 +21,23 @@ public class MetricsSaver : MonoBehaviour {
 
     public static void Save() {
         SaveObject saveObject = new SaveObject {
-            highScore = ScoreManager.instance.highScore ,
+            highScore = GlobalStats.highScore ,
+            timesPlayed = GlobalStats.timesPlayed ,
+            totalDistanceDriven = GlobalStats.totalDistanceDriven ,
+            timePlayed = GlobalStats.timePlayed ,
         };
         string json = JsonUtility.ToJson( saveObject );
         MetricSaveSystem.Save( json );
-        Debug.Log( "Saved score: " + saveObject.highScore );
     }
 
     public static void Load() {
         string saveString = MetricSaveSystem.Load();
         if(saveString != null) {
             SaveObject saveObject = JsonUtility.FromJson<SaveObject>( saveString );
-            ScoreManager.instance.highScore = saveObject.highScore;
-            Debug.Log( "Loaded score: " + saveObject.highScore );
+            GlobalStats.highScore = saveObject.highScore;
+            GlobalStats.timesPlayed = saveObject.timesPlayed;
+            GlobalStats.totalDistanceDriven = saveObject.totalDistanceDriven;
+            GlobalStats.timePlayed = saveObject.timePlayed;
         } else {
             Debug.LogError( "Didnt Load" );
         }
@@ -39,11 +45,13 @@ public class MetricsSaver : MonoBehaviour {
 
     private class SaveObject {
         public int highScore;
+        public int timesPlayed;
+        public int totalDistanceDriven;
+        public int timePlayed;
     }
 
     private void OnDestroy() {
         NotificationCenter.OnSaveEvent -= Save;
         NotificationCenter.OnLoadEvent -= Load;
-
     }
 }

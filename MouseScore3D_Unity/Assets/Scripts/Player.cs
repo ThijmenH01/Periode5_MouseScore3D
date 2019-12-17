@@ -15,10 +15,10 @@ public class Player : MonoBehaviour {
 
     private float healthAddon = 0.1f;
     private bool isMaxHealth = true;
-    private GameManager gameManager;
     private int carLightNormal = 10;
     private int carLightShineBU;
     private int carLightShine = 75;
+    private GameManager gameManager;
 
     [SerializeField] private float damage;
     [SerializeField] private Light frontR;
@@ -39,6 +39,8 @@ public class Player : MonoBehaviour {
         //StartCoroutine( HealingAsync( 0.1f ) );
         NotificationCenter.FireLoad();
         carLightShineBU = carLightShine;
+        GlobalStats.timesPlayed++;
+        //NotificationCenter.FireSave();
     }
 
     void Update() {

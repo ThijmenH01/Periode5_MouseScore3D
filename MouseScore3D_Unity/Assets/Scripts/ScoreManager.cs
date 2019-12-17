@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
+
+
+
     public static ScoreManager instance;
 
     public Text scoreInTimeText;
+    public int scoreInTime;
     public int currentLevel = 1;
-    public int highScore = 1;
 
     [SerializeField] private LevelUpUI levelUpUI;
-    private int scoreInTime;
     private bool allowedToSwitchLevel = false;
 
     private void Awake() {
@@ -24,7 +26,10 @@ public class ScoreManager : MonoBehaviour {
         NotificationCenter.OnNextLevelEvent += NextLevelReachedHandler;
         NotificationCenter.OnCheatEvent += CheatHandler;
 
+        NotificationCenter.FireLoad();
+
         StartCoroutine( ScoreAsync( 0.1f ) );
+        StartCoroutine( TimePlayedAsync() );
     }
 
     private void Update() {
@@ -32,8 +37,8 @@ public class ScoreManager : MonoBehaviour {
             CheatHandler();
         }
 
-        if(highScore <= scoreInTime) {
-            highScore = scoreInTime;
+        if(GlobalStats.highScore <= scoreInTime) {
+            GlobalStats.highScore = scoreInTime;
         }
     }
 
@@ -66,7 +71,19 @@ public class ScoreManager : MonoBehaviour {
     }
 
     private void GameOverHandler() {
+        //FIX
+        //scoreInTime += totalDistanceDriven;
+        //print( totalDistanceDriven );
+
         scoreInTimeText.enabled = false;
+        NotificationCenter.FireSave();
+    }
+
+    private IEnumerator TimePlayedAsync() {
+        while(true) {
+            GlobalStats.timePlayed++;
+            yield return new WaitForSeconds( 1 );
+        }
     }
 
     void OnDestroy() {
