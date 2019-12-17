@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class MetricsSaver : MonoBehaviour {
 
-
     private void Awake() {
+        NotificationCenter.OnSaveEvent += Save;
+        NotificationCenter.OnLoadEvent += Load;
         SaveObject saveObject = new SaveObject {
             highScore = 0 ,
         };
@@ -14,17 +15,15 @@ public class MetricsSaver : MonoBehaviour {
 
         SaveObject loadSavedObject = JsonUtility.FromJson<SaveObject>( json );
         MetricSaveSystem.Init();
-
     }
 
     public static void Save() {
         SaveObject saveObject = new SaveObject {
-            highScore = ScoreManager.instance.highScore,
+            highScore = ScoreManager.instance.highScore ,
         };
-
         string json = JsonUtility.ToJson( saveObject );
         MetricSaveSystem.Save( json );
-        print( "Saved" );
+        Debug.Log( "Saved score: " + saveObject.highScore );
     }
 
     public static void Load() {
@@ -32,6 +31,7 @@ public class MetricsSaver : MonoBehaviour {
         if(saveString != null) {
             SaveObject saveObject = JsonUtility.FromJson<SaveObject>( saveString );
             ScoreManager.instance.highScore = saveObject.highScore;
+            Debug.Log( "Loaded score: " + saveObject.highScore );
         } else {
             Debug.LogError( "Didnt Load" );
         }
@@ -39,5 +39,11 @@ public class MetricsSaver : MonoBehaviour {
 
     private class SaveObject {
         public int highScore;
+    }
+
+    private void OnDestroy() {
+        NotificationCenter.OnSaveEvent -= Save;
+        NotificationCenter.OnLoadEvent -= Load;
+
     }
 }

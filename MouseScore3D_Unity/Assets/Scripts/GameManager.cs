@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
+    public Text highScoreText;
     public Text timeTillStartText;
     public Text reachedLevelGameOverText;
     public GameObject gameOverScreen;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private int timeTillStart;
     [SerializeField] private GameObject pauseMenu;
+    private bool isSaved = false;
 
     private void Awake() {
         instance = this;
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour {
                 ResumeGame();
         }
 
-        if(Input.GetKeyDown( KeyCode.S ))  {
+        if(Input.GetKeyDown( KeyCode.S )) {
             MetricsSaver.Save();
         }
         if(Input.GetKeyDown( KeyCode.L )) {
@@ -72,8 +74,13 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SetActive( true );
         reachedLevelGameOverText.text = "Game Over, You reached level " + ScoreManager.instance.currentLevel + "!";
         player.health = Mathf.Clamp( player.health , 0 , 100 );
-        NotificationCenter.FireGameOver();
-        if(Input.GetKeyDown(KeyCode.Space) && gameIsOver) {
+        if(!isSaved) {
+            isSaved = true;
+            highScoreText.text = "Highscore: " + ScoreManager.instance.highScore + "!";
+            NotificationCenter.FireSave();
+        }
+        //NotificationCenter.FireGameOver();
+        if(Input.GetKeyDown( KeyCode.Space ) && gameIsOver) {
             RestartGame();
         }
     }
@@ -102,5 +109,9 @@ public class GameManager : MonoBehaviour {
             gameIsOver = false;
         }
         SceneManager.LoadScene( 1 );
+    }
+
+    private void OnDestroy() {
+        NotificationCenter.OnGameOverEvent -= GameOverHandler;
     }
 }

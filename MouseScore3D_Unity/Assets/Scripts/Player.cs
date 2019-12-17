@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
         NotificationCenter.OnCheatEvent += CheatHandler;
 
         //StartCoroutine( HealingAsync( 0.1f ) );
-
+        NotificationCenter.FireLoad();
         carLightShineBU = carLightShine;
     }
 

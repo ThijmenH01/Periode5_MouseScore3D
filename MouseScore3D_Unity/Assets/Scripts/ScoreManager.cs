@@ -32,9 +32,8 @@ public class ScoreManager : MonoBehaviour {
             CheatHandler();
         }
 
-        if(Input.GetKeyDown( KeyCode.P )){
-            highScore++;
-            print( highScore );
+        if(highScore <= scoreInTime) {
+            highScore = scoreInTime;
         }
     }
 

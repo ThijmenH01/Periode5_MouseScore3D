@@ -45,4 +45,18 @@ public class NotificationCenter : MonoBehaviour
     public static void FireCheat() {
         OnCheatEvent?.Invoke();
     }
+
+    //SaveStats
+    public delegate void OnSaveAction();
+    public static event OnSaveAction OnSaveEvent;
+    public static void FireSave() {
+        OnSaveEvent?.Invoke();
+    }
+   
+    //LoadStats
+    public delegate void OnLoadAction();
+    public static event OnLoadAction OnLoadEvent;
+    public static void FireLoad() {
+        OnLoadEvent?.Invoke();
+    }
 }
