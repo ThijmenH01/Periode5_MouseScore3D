@@ -77,8 +77,7 @@ public class GameManager : MonoBehaviour {
         if(!isSaved) {
             isSaved = true;
             highScoreText.text = "Highscore: " + GlobalStats.highScore + "!";
-            GlobalStats.totalDistanceDriven += ScoreManager.instance.scoreInTime;
-            print( GlobalStats.totalDistanceDriven );
+            //GlobalStats.totalDistanceDriven += ScoreManager.instance.scoreInTime;
             NotificationCenter.FireSave();
         }
         //NotificationCenter.FireGameOver();

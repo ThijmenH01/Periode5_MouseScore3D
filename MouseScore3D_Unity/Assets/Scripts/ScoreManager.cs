@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour {
 
     [SerializeField] private LevelUpUI levelUpUI;
     private bool allowedToSwitchLevel = false;
+    private bool isSaved = false;
 
     private void Awake() {
         instance = this;
@@ -72,11 +73,15 @@ public class ScoreManager : MonoBehaviour {
 
     private void GameOverHandler() {
         //FIX
-        //scoreInTime += totalDistanceDriven;
+        GlobalStats.totalDistanceDriven += scoreInTime;
         //print( totalDistanceDriven );
 
         scoreInTimeText.enabled = false;
-        NotificationCenter.FireSave();
+        //NotificationCenter.FireSave();
+        if(!isSaved) {
+            MetricsSaver.Save();
+            isSaved = true;
+        }
     }
 
     private IEnumerator TimePlayedAsync() {

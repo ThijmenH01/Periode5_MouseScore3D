@@ -1,1 +1,1 @@
-{"highScore":85,"timesPlayed":25,"totalDistanceDriven":339,"timePlayed":18}
+{"highScore":137,"timesPlayed":46,"totalDistanceDriven":218,"timePlayed":202}
