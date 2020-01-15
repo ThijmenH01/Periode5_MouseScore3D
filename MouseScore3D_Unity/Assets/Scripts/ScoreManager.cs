@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
-
-
-
     public static ScoreManager instance;
 
     public Text scoreInTimeText;
@@ -79,7 +76,7 @@ public class ScoreManager : MonoBehaviour {
         scoreInTimeText.enabled = false;
         //NotificationCenter.FireSave();
         if(!isSaved) {
-            MetricsSaver.Save();
+            //MetricsSaver.Save();
             isSaved = true;
         }
     }

@@ -5,12 +5,10 @@ using UnityEngine;
 
 public static class MetricSaveSystem {
 
-
-
     private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
 
     public static void Init() {
-        if(Directory.Exists( SAVE_FOLDER )) {
+        if(!Directory.Exists( SAVE_FOLDER )) {
             Directory.CreateDirectory( SAVE_FOLDER );
         }
     }
