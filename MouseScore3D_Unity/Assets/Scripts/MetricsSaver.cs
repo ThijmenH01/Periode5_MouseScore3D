@@ -9,7 +9,7 @@ public class MetricsSaver : MonoBehaviour {
     private static MySqlCommand _resultInsert;
     private static MySqlCommand _resultUpdate;
     private static MySqlCommand _resultCheck;
-    string userName = "test";
+    string userName = "test1234567";
 
     private void Awake() {
         NotificationCenter.OnSaveEvent += Save;
@@ -46,15 +46,26 @@ public class MetricsSaver : MonoBehaviour {
 
         //FIX
         //_resultCheck = new MySqlCommand( _commandCheck , con );
-        Debug.Log( _resultCheck );
-        Debug.Log( $"MySQL Ping : {con.Ping()}" );
-        
-        _resultCheck.ExecuteNonQuery();
+        //Debug.Log( _resultCheck );
+        //Debug.Log( $"MySQL Ping : {con.Ping()}" );
+
+        //_resultInsert.ExecuteNonQuery();
         //_resultUpdate.ExecuteNonQuery();
+        bool _abort = true;
         using(MySqlDataReader _checkReader = _resultCheck.ExecuteReader()) {
             while(_checkReader.Read()) {
-                Debug.Log( _checkReader.GetString( 0 ) );
+                if(_checkReader.GetString( 0 ) != null) {
+                    //Debug.Log( _checkReader.GetString( 0 ) );
+                    Debug.Log( "Gebruiker gevonden, geupdate" );
+                    _abort = false;
+                    _resultUpdate.ExecuteNonQuery();
+                }
             }
+        }
+
+        if(_abort) {
+            Debug.Log( "Gebruiker niet gevonden, nieuwe aangemaakt" );
+            _resultInsert.ExecuteNonQuery();
         }
     }
 
@@ -71,8 +82,7 @@ public class MetricsSaver : MonoBehaviour {
         MetricSaveSystem.Save( json );
 
         //FIX
-        _resultInsert.ExecuteNonQuery();
-       
+        //_resultInsert.ExecuteNonQuery();
     }
 
     public static void Load() {
