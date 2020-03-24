@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
+    public Api api;
 
     public Text highScoreText;
     public Text timeTillStartText;
@@ -49,10 +50,10 @@ public class GameManager : MonoBehaviour {
         }
 
         if(Input.GetKeyDown( KeyCode.S )) {
-            MetricsSaver.Save();
+            api.Save();
         }
         if(Input.GetKeyDown( KeyCode.L )) {
-            MetricsSaver.Load();
+            api.Load();
         }
     }
 

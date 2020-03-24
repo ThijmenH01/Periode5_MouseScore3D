@@ -20,7 +20,7 @@ public class LoginInput : MonoBehaviour {
     }
 
     public void Create() {
-        loginManager.debugPassword = passwordInputField.text;
+        loginManager.debugEmail = usernameInputField.text;
         loginManager.debugPassword = passwordInputField.text;
         StartCoroutine( loginManager.CreateAccountRequestAsync() );
     }

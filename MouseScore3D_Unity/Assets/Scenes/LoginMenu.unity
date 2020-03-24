@@ -1259,8 +1259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   url: http://127.0.0.1/edsa-Database/LoginManager.php
   token: 
-  debugEmail: john@example.com
-  debugPassword: pannenkoek
+  debugEmail: 
+  debugPassword: 
 --- !u!4 &1158538636
 Transform:
   m_ObjectHideFlags: 0

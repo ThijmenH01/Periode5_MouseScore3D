@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour {
 
     public void GoToMainMenu() {
-        SceneManager.LoadScene( 0 );
+        SceneManager.LoadScene( 1 );
     }
 
     public void ExitGame() {

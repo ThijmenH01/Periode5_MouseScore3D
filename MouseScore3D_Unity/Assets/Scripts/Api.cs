@@ -10,6 +10,11 @@ public class Api : MonoBehaviour {
     public string debugEmail;
     public string debugPassword;
 
+    private void Awake() {
+        NotificationCenter.OnSaveEvent += Save;
+        NotificationCenter.OnLoadEvent += Load;
+    }
+
     private void Start() {
         DontDestroyOnLoad( this.gameObject );
     }
@@ -120,6 +125,50 @@ public class Api : MonoBehaviour {
         }
     }
 
+    public void Save() {
+        StartCoroutine( SaveAsync() );
+    }
+
+    public void Load() {
+        StartCoroutine( LoadAsync() );
+    }
+
+    public IEnumerator SaveAsync() {
+        Debug.Log( token );
+        ChangeHighscoreRequest request = new ChangeHighscoreRequest();
+        request.token = token;
+        string json = JsonUtility.ToJson( request );
+        Debug.Log( json );
+        WWWForm form = new WWWForm();
+        form.AddField( "request" , json );
+        using(UnityWebRequest www = UnityWebRequest.Post( url , form )) {
+            yield return www.SendWebRequest();
+            if(www.isNetworkError || www.isHttpError) {
+                Debug.Log( www.error );
+            } else {
+                Debug.Log( www.downloadHandler.text );
+            }
+        }
+    }
+
+    private IEnumerator LoadAsync() {
+        Debug.Log( token );
+        ChangeHighscoreRequest request = new ChangeHighscoreRequest();
+        request.token = token;
+        string json = JsonUtility.ToJson( request );
+        Debug.Log( json );
+        WWWForm form = new WWWForm();
+        form.AddField( "request" , json );
+        using(UnityWebRequest www = UnityWebRequest.Post( url , form )) {
+            yield return www.SendWebRequest();
+            if(www.isNetworkError || www.isHttpError) {
+                Debug.Log( www.error );
+            } else {
+                Debug.Log( www.downloadHandler.text );
+            }
+        }
+    }
+
     public void LoggedInSuccesFully(int scene) {
         SceneManager.LoadScene( scene );
     }
@@ -161,3 +210,11 @@ public class LoginResponse : BaseResponse {
     public string token;
 }
 
+[System.Serializable]
+public class ChangeHighscoreRequest : BaseRequest {
+    public ChangeHighscoreRequest() {
+        action = "update_highscore";
+    }
+    public string token;
+    public static int highscore = 100;
+}
