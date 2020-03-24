@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class LoginManager : MonoBehaviour {
+using UnityEngine.SceneManagement;
+public class Api : MonoBehaviour {
     public string url = "http://127.0.0.1/edsa-Database/LoginManager.php";
     public string token;
     [Header( "Debug Data" )]
-    public string debugEmail = "john@example.com";
-    public string debugPassword = "pannenkoek";
+    public string debugEmail;
+    public string debugPassword;
 
     private void Start() {
         DontDestroyOnLoad( this.gameObject );
@@ -15,17 +16,17 @@ public class LoginManager : MonoBehaviour {
 
     private void Update() {
 
-        if(Input.GetKeyDown( KeyCode.C )) {
-            StartCoroutine( CreateAccountRequestAsync() );
-        }
+        //if(Input.GetKeyDown( KeyCode.C )) {
+        //    StartCoroutine( CreateAccountRequestAsync() );
+        //}
 
-        if(Input.GetKeyDown( KeyCode.L )) {
-            StartCoroutine( LoginRequestAsync() );
-        }
+        //if(Input.GetKeyDown( KeyCode.L )) {
+        //    StartCoroutine( LoginRequestAsync() );
+        //}
 
-        if(Input.GetKeyDown( KeyCode.O )) {
-            StartCoroutine( LogoutRequestAsync() );
-        }
+        //if(Input.GetKeyDown( KeyCode.O )) {
+        //    StartCoroutine( LogoutRequestAsync() );
+        //}
     }
 
     public IEnumerator CreateAccountRequestAsync() {
@@ -74,6 +75,7 @@ public class LoginManager : MonoBehaviour {
                     case "ok":
                         Debug.Log( "Token retrieved" );
                         token = response.token;
+                        LoggedInSuccesFully( 1 );
                         break;
                     case "wrong_email_or_password":
                         Debug.Log( "Wrong email or password" );
@@ -117,6 +119,10 @@ public class LoginManager : MonoBehaviour {
             }
         }
     }
+
+    public void LoggedInSuccesFully(int scene) {
+        SceneManager.LoadScene( scene );
+    }
 }
 
 [System.Serializable]
@@ -126,10 +132,10 @@ public class BaseRequest {
 }
 [System.Serializable]
 public class CreateAccountRequest : BaseRequest {
-    public string password;
     public CreateAccountRequest() {
         action = "create_account";
     }
+    public string password;
 }
 [System.Serializable]
 public class LoginRequest : BaseRequest {
