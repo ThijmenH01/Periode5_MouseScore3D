@@ -21,14 +21,14 @@ public class LoginInput : MonoBehaviour {
     }
 
     public void Login() {
-        loginManager.debugEmail = usernameInputField.text;
-        loginManager.debugPassword = passwordInputField.text;
+        loginManager.email = usernameInputField.text;
+        loginManager.password = passwordInputField.text;
         StartCoroutine( loginManager.LoginRequestAsync() );
     }
 
     public void Create() {
-        loginManager.debugEmail = usernameInputField.text;
-        loginManager.debugPassword = passwordInputField.text;
+        loginManager.email = usernameInputField.text;
+        loginManager.password = passwordInputField.text;
         StartCoroutine( loginManager.CreateAccountRequestAsync() );
     }
 

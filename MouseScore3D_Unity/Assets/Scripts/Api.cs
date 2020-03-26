@@ -8,9 +8,9 @@ public class Api : MonoBehaviour {
     public string url = "http://127.0.0.1/edsa-Database/LoginManager.php";
     public string token;
     public int highscore;
-    [Header( "Debug Data" )]
-    public string debugEmail;
-    public string debugPassword;
+    [Header( "Data" )]
+    public string email;
+    public string password;
 
 
     private void Awake() {
@@ -41,8 +41,8 @@ public class Api : MonoBehaviour {
         LoginInput.instance.popupContent = "Creating Account...";
         NotificationCenter.FireLogginIn();
         CreateAccountRequest request = new CreateAccountRequest();
-        request.email = debugEmail;
-        request.password = debugPassword;
+        request.email = email;
+        request.password = password;
         string json = JsonUtility.ToJson( request );
         WWWForm form = new WWWForm();
         form.AddField( "request" , json );
@@ -75,8 +75,8 @@ public class Api : MonoBehaviour {
         LoginInput.instance.popupContent = "Loggin In...";
         NotificationCenter.FireLogginIn();
         LoginRequest request = new LoginRequest();
-        request.email = debugEmail;
-        request.password = debugPassword;
+        request.email = email;
+        request.password = password;
         string json = JsonUtility.ToJson( request );
         WWWForm form = new WWWForm();
         form.AddField( "request" , json );
@@ -108,7 +108,7 @@ public class Api : MonoBehaviour {
     }
     public IEnumerator LogoutRequestAsync() {
         LogoutRequest request = new LogoutRequest();
-        request.email = debugEmail;
+        request.email = email;
         request.token = token;
         string json = JsonUtility.ToJson( request );
         WWWForm form = new WWWForm();
