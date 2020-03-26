@@ -368,7 +368,6 @@ GameObject:
   - component: {fileID: 475572533}
   - component: {fileID: 475572532}
   - component: {fileID: 475572536}
-  - component: {fileID: 475572537}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -472,19 +471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084f8f4241f41004f895c614dd9a3769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &475572537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475572531}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a3f2b784a8e344c8b6229de94c129a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  url: http://127.0.0.1/edsa-Database/StatsManager.php
 --- !u!1 &986437103
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +686,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 85}
-  m_SizeDelta: {x: 400, y: 75}
+  m_SizeDelta: {x: 678.2, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047283285
 MonoBehaviour:
@@ -1670,7 +1656,6 @@ GameObject:
   - component: {fileID: 1815261002}
   - component: {fileID: 1815261001}
   - component: {fileID: 1815261000}
-  - component: {fileID: 1815260999}
   - component: {fileID: 1815260998}
   m_Layer: 5
   m_Name: StatsMenu
@@ -1688,22 +1673,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815260997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a3f2b784a8e344c8b6229de94c129a, type: 3}
+  m_Script: {fileID: 11500000, guid: d88c3491c2563ce4d9e4d4879ee3fdfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: http://127.0.0.1/edsa-Database/StatsManager.php
---- !u!114 &1815260999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815260997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 084f8f4241f41004f895c614dd9a3769, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  highscoreText: {fileID: 1047283285}
+  api: {fileID: 0}
 --- !u!114 &1815261000
 MonoBehaviour:
   m_ObjectHideFlags: 0

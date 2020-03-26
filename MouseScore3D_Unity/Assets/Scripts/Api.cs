@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class Api : MonoBehaviour {
     public string url = "http://127.0.0.1/edsa-Database/LoginManager.php";
     public string token;
+    public int highscore;
     [Header( "Debug Data" )]
     public string debugEmail;
     public string debugPassword;
 
     private void Awake() {
         NotificationCenter.OnSaveEvent += Save;
-        NotificationCenter.OnLoadEvent += Load;
+        //NotificationCenter.OnLoadEvent += Load;
     }
 
     private void Start() {
@@ -80,6 +81,7 @@ public class Api : MonoBehaviour {
                     case "ok":
                         Debug.Log( "Token retrieved" );
                         token = response.token;
+                        highscore = response.highscore;
                         LoggedInSuccesFully( 1 );
                         break;
                     case "wrong_email_or_password":
@@ -129,14 +131,20 @@ public class Api : MonoBehaviour {
         StartCoroutine( SaveAsync() );
     }
 
-    public void Load() {
-        StartCoroutine( LoadAsync() );
-    }
+    //public void Load() {
+    //    StartCoroutine( LoadAsync() );
+    //}
 
     public IEnumerator SaveAsync() {
+        print( ScoreManager.instance.scoreInTime + "before" );
         Debug.Log( token );
         ChangeHighscoreRequest request = new ChangeHighscoreRequest();
         request.token = token;
+        if(ScoreManager.instance.scoreInTime > highscore) {
+            print( ScoreManager.instance.scoreInTime + "after 1" );
+            request.highscore = ScoreManager.instance.scoreInTime;
+            highscore = request.highscore;
+        }
         string json = JsonUtility.ToJson( request );
         Debug.Log( json );
         WWWForm form = new WWWForm();
@@ -151,23 +159,24 @@ public class Api : MonoBehaviour {
         }
     }
 
-    private IEnumerator LoadAsync() {
-        Debug.Log( token );
-        ChangeHighscoreRequest request = new ChangeHighscoreRequest();
-        request.token = token;
-        string json = JsonUtility.ToJson( request );
-        Debug.Log( json );
-        WWWForm form = new WWWForm();
-        form.AddField( "request" , json );
-        using(UnityWebRequest www = UnityWebRequest.Post( url , form )) {
-            yield return www.SendWebRequest();
-            if(www.isNetworkError || www.isHttpError) {
-                Debug.Log( www.error );
-            } else {
-                Debug.Log( www.downloadHandler.text );
-            }
-        }
-    }
+    //private IEnumerator LoadAsync() {
+    //    Debug.Log( token );
+    //    GetHighscoreRequest request = new GetHighscoreRequest();
+    //    request.token = token;
+    //    string json = JsonUtility.ToJson( request );
+    //    Debug.Log( json );
+    //    WWWForm form = new WWWForm();
+    //    form.AddField( "request" , json );
+    //    using(UnityWebRequest www = UnityWebRequest.Post( url , form )) {
+    //        yield return www.SendWebRequest();
+    //        if(www.isNetworkError || www.isHttpError) {
+    //            Debug.Log( www.error );
+    //        } else {
+    //            Debug.Log( www.downloadHandler.text );
+    //            print( request.highscore );
+    //        }
+    //    }
+    //}
 
     public void LoggedInSuccesFully(int scene) {
         SceneManager.LoadScene( scene );
@@ -179,6 +188,7 @@ public class BaseRequest {
     public string action;
     public string email;
 }
+
 [System.Serializable]
 public class CreateAccountRequest : BaseRequest {
     public CreateAccountRequest() {
@@ -186,6 +196,7 @@ public class CreateAccountRequest : BaseRequest {
     }
     public string password;
 }
+
 [System.Serializable]
 public class LoginRequest : BaseRequest {
     public LoginRequest() {
@@ -193,6 +204,7 @@ public class LoginRequest : BaseRequest {
     }
     public string password;
 }
+
 [System.Serializable]
 public class LogoutRequest : BaseRequest {
     public LogoutRequest() {
@@ -200,14 +212,17 @@ public class LogoutRequest : BaseRequest {
     }
     public string token;
 }
+
 [System.Serializable]
 public class BaseResponse {
     public string status;
     public string errorMessage;
 }
+
 [System.Serializable]
 public class LoginResponse : BaseResponse {
     public string token;
+    public int highscore;
 }
 
 [System.Serializable]
@@ -216,5 +231,13 @@ public class ChangeHighscoreRequest : BaseRequest {
         action = "update_highscore";
     }
     public string token;
-    public static int highscore = 100;
+    public int highscore;
 }
+
+//public class GetHighscoreRequest : BaseRequest {
+//    public GetHighscoreRequest() {
+//        action = "get_highscore";
+//    }
+//    public string token;
+//    public int highscore;
+//}

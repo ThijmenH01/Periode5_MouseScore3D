@@ -52,9 +52,6 @@ public class GameManager : MonoBehaviour {
         if(Input.GetKeyDown( KeyCode.S )) {
             api.Save();
         }
-        if(Input.GetKeyDown( KeyCode.L )) {
-            api.Load();
-        }
     }
 
     private IEnumerator StartCountdown(float time) {
@@ -110,7 +107,7 @@ public class GameManager : MonoBehaviour {
         if(gameIsOver) {
             gameIsOver = false;
         }
-        SceneManager.LoadScene( 1 );
+        SceneManager.LoadScene( 2 );
     }
 
     private void OnDestroy() {
