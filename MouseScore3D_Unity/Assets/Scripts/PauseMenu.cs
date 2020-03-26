@@ -16,9 +16,4 @@ public class PauseMenu : MonoBehaviour {
     public void ResumeGame() {
         GameManager.instance.ResumeGame();
     }
-
-    public void ClearStats() {
-        GlobalStats.highScore = 0;
-        NotificationCenter.FireSave();
-    }
 }

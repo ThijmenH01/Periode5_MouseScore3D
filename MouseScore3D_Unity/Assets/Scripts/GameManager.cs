@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         NotificationCenter.OnGameOverEvent += GameOverHandler;
+        api = FindObjectOfType<Api>();
         StartCoroutine( StartCountdown( 1 ) );
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour {
         player.health = Mathf.Clamp( player.health , 0 , 100 );
         if(!isSaved) {
             isSaved = true;
-            highScoreText.text = "Highscore: " + GlobalStats.highScore + "!";
+            highScoreText.text = "Highscore: " + api.highscore + "!";
             //GlobalStats.totalDistanceDriven += ScoreManager.instance.scoreInTime;
             NotificationCenter.FireSave();
         }

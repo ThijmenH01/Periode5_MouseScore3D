@@ -59,4 +59,11 @@ public class NotificationCenter : MonoBehaviour
     public static void FireLoad() {
         OnLoadEvent?.Invoke();
     }
+
+    //Login
+    public delegate void OnLogginInAction();
+    public static event OnLoadAction OnLogginInEvent;
+    public static void FireLogginIn() {
+        OnLogginInEvent?.Invoke();
+    }
 }

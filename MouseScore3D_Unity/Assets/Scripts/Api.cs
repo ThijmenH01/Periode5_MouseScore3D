@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 public class Api : MonoBehaviour {
+
     public string url = "http://127.0.0.1/edsa-Database/LoginManager.php";
     public string token;
     public int highscore;
     [Header( "Debug Data" )]
     public string debugEmail;
     public string debugPassword;
+
 
     private void Awake() {
         NotificationCenter.OnSaveEvent += Save;
@@ -36,6 +38,8 @@ public class Api : MonoBehaviour {
     }
 
     public IEnumerator CreateAccountRequestAsync() {
+        LoginInput.instance.popupContent = "Creating Account...";
+        NotificationCenter.FireLogginIn();
         CreateAccountRequest request = new CreateAccountRequest();
         request.email = debugEmail;
         request.password = debugPassword;
@@ -52,9 +56,13 @@ public class Api : MonoBehaviour {
                 switch(response.status) {
                     case "ok":
                         Debug.Log( "Account created" );
+                        LoginInput.instance.popupContent = "Account Created";
+                        NotificationCenter.FireLogginIn();
                         break;
                     case "email_already_exists":
                         Debug.Log( "Account already exists" );
+                        LoginInput.instance.popupContent = "Already Exists";
+                        NotificationCenter.FireLogginIn();
                         break;
                     case "error":
                         Debug.Log( response.errorMessage );
@@ -64,6 +72,8 @@ public class Api : MonoBehaviour {
         }
     }
     public IEnumerator LoginRequestAsync() {
+        LoginInput.instance.popupContent = "Loggin In...";
+        NotificationCenter.FireLogginIn();
         LoginRequest request = new LoginRequest();
         request.email = debugEmail;
         request.password = debugPassword;
@@ -85,6 +95,8 @@ public class Api : MonoBehaviour {
                         LoggedInSuccesFully( 1 );
                         break;
                     case "wrong_email_or_password":
+                        LoginInput.instance.popupContent = "Wrong Credentials";
+                        NotificationCenter.FireLogginIn();
                         Debug.Log( "Wrong email or password" );
                         break;
                     case "error":
